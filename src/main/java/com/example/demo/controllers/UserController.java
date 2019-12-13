@@ -29,9 +29,14 @@ public class UserController {
     }
 
     @GetMapping("/")
-    public String showIndex(Model model) {
-        model.addAttribute("users", userRepository.findAll());
+    public String showIndex() {
         return "index";
+    }
+
+    @GetMapping("/clerk")
+    public String showClerkView(Model model) {
+        model.addAttribute("users", userRepository.findAll());
+        return "clerk";
     }
 
     @GetMapping("/signup")
@@ -47,7 +52,7 @@ public class UserController {
         
         userRepository.save(user);
         model.addAttribute("users", userRepository.findAll());
-        return "index";
+        return "clerk";
     }
     
     @GetMapping("/edit/{id}")
@@ -66,7 +71,7 @@ public class UserController {
         
         userRepository.save(user);
         model.addAttribute("users", userRepository.findAll());
-        return "index";
+        return "clerk";
     }
     
     @GetMapping("/delete/{id}")
@@ -74,7 +79,7 @@ public class UserController {
         User user = userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
         userRepository.delete(user);
         model.addAttribute("users", userRepository.findAll());
-        return "index";
+        return "clerk";
     }
 
     @PostMapping("/uploadFile")
