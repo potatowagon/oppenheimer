@@ -48,7 +48,13 @@ public class UserController {
         model.addAttribute("status", "User added");
         return "add-user";
     }
-    
+
+    @GetMapping("/bookkeeper")
+    public String showUsers(Model model) {
+        model.addAttribute("users", userRepository.findAll());
+        return "view-all";
+    }
+
     @GetMapping("/edit/{id}")
     public String showUpdateForm(@PathVariable("id") long id, Model model) {
         User user = userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
