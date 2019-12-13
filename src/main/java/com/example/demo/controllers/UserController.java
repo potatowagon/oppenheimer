@@ -34,12 +34,6 @@ public class UserController {
     }
 
     @GetMapping("/clerk")
-    public String showClerkView(Model model) {
-        model.addAttribute("users", userRepository.findAll());
-        return "clerk";
-    }
-
-    @GetMapping("/signup")
     public String showSignUpForm(User user) {
         return "add-user";
     }
@@ -51,8 +45,8 @@ public class UserController {
         }
         
         userRepository.save(user);
-        model.addAttribute("users", userRepository.findAll());
-        return "clerk";
+        model.addAttribute("status", "User added");
+        return "add-user";
     }
     
     @GetMapping("/edit/{id}")

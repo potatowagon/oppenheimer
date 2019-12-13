@@ -26,6 +26,7 @@
                                 <input type="text" th:field="*{email}" class="form-control" id="email" placeholder="Email">
                                 <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="text-danger"></span>
                             </div>
+                            <span th:text="${status}" class="text-success"></span>
                         </div>
                         <div class="row">
                             <div class="col-md-6 mt-5">
