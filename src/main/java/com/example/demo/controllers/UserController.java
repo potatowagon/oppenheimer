@@ -55,6 +55,12 @@ public class UserController {
         return "view-all";
     }
 
+    @GetMapping("/admin")
+    public String showCRUD(Model model) {
+        model.addAttribute("users", userRepository.findAll());
+        return "crud";
+    }
+
     @GetMapping("/edit/{id}")
     public String showUpdateForm(@PathVariable("id") long id, Model model) {
         User user = userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
