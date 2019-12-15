@@ -1,12 +1,12 @@
 package com.example.demo.repositories;
 
-import com.example.demo.entities.User;
+import com.example.demo.entities.Employee;
 import java.util.List;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface UserRepository extends CrudRepository<User, Long> {
+public interface EmployeeRepository extends CrudRepository<Employee, Long> {
     
-    List<User> findByName(String name);
+    List<Employee> findByName(String name);
 }
