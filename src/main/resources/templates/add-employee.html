@@ -18,12 +18,12 @@
     </head>
     <body>
         <div class="container my-5">
-            <h2 class="mb-5">New Employee</h2>
+            <h2 class="mb-5">Insert Employee</h2>
             <div class="row">
                 <div class="col-md">
                     <form action="#" th:action="@{/saveemployees}" th:object="${form}" method="post" id="main-form">
                         <div class="row" th:each="employee, itemStat : *{employees}">
-                            <div class="form-group col">
+                            <div class="form-group col-md">
                                 <label th:for="id__${itemStat.index}__" class="col-form-label">National Id</label>
                                 <input type="number" th:id="id__${itemStat.index}__" th:field="*{employees[__${itemStat.index}__].id}" class="form-control" placeholder="natid">
                                 <span th:if="${#fields.hasErrors('employees[__${itemStat.index}__].id')}" th:errors="*{employees[__${itemStat.index}__].id}" class="text-danger"></span>
