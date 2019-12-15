@@ -20,21 +20,46 @@
         <div class="container my-5">
             <h2 class="mb-5">New Employee</h2>
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md">
                     <form action="#" th:action="@{/saveemployees}" th:object="${form}" method="post" id="main-form">
                         <div class="row" th:each="employee, itemStat : *{employees}">
-
-
-                            <div class="form-group col-md-6">
-                                <label for="name" class="col-form-label">Name</label>
-                                <input type="text" th:field="*{employees[__${itemStat.index}__].name}" class="form-control" placeholder="Name">
-                                <span th:if="${#fields.hasErrors('employees[__${itemStat.index}__].name')}" th:errors="*{employees[__${itemStat.index}__].name}" class="text-danger"></span>
+                            <div class="form-group col">
+                                <label th:for="id__${itemStat.index}__" class="col-form-label">National Id</label>
+                                <input type="number" th:id="id__${itemStat.index}__" th:field="*{employees[__${itemStat.index}__].id}" class="form-control" placeholder="natid">
+                                <span th:if="${#fields.hasErrors('employees[__${itemStat.index}__].id')}" th:errors="*{employees[__${itemStat.index}__].id}" class="text-danger"></span>
                             </div>
 
-                            <div class="form-group col-md-6">
-                                <label for="email" class="col-form-label">Email</label>
-                                <input type="text" th:field="*{employees[__${itemStat.index}__].email}" class="form-control" placeholder="Email">
-                                <span th:if="${#fields.hasErrors('employees[__${itemStat.index}__].name')}" th:errors="*{employees[__${itemStat.index}__].name}" class="text-danger"></span>
+                            <div class="form-group col-md">
+                                <label th:for="name__${itemStat.index}__" class="col-form-label">Name</label>
+                                <input type="text" th:id="name__${itemStat.index}__" th:field="*{employees[__${itemStat.index}__].name}" class="form-control" placeholder="Name">
+                                <span th:if="${#fields.hasErrors('*{employees[__${itemStat.index}__].name}')}" th:errors="*{employees[__${itemStat.index}__].name}" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group col-md">
+                                <label th:for="gender__${itemStat.index}__" class="col-form-label">Gender</label>
+                                <select name="gender" th:id="gender__${itemStat.index}__" th:field="*{employees[__${itemStat.index}__].gender}" class="form-control">
+                                    <option value="Male">Male</option>
+                                    <option value="Female">Female</option>
+                                </select>
+                                <span th:if="${#fields.hasErrors('*{employees[__${itemStat.index}__].gender}')}" th:errors="*{employees[__${itemStat.index}__].gender}" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group col-md">
+                                <label th:for="birthday__${itemStat.index}__" class="col-form-label">Birthday</label>
+                                <input type="date" th:id="birthday__${itemStat.index}__" th:field="*{employees[__${itemStat.index}__].birthday}" class="form-control" placeholder="birthday">
+                                <span th:if="${#fields.hasErrors('*{employees[__${itemStat.index}__].birthday}')}" th:errors="*{employees[__${itemStat.index}__].birthday}" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group col-md">
+                                <label th:for="salary__${itemStat.index}__" class="col-form-label">Salary</label>
+                                <input type="number" th:id="salary__${itemStat.index}__" th:field="*{employees[__${itemStat.index}__].salary}" class="form-control" placeholder="salary">
+                                <span th:if="${#fields.hasErrors('*{employees[__${itemStat.index}__].salary}')}" th:errors="*{employees[__${itemStat.index}__].salary}" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group col-md">
+                                <label th:for="taxPaid__${itemStat.index}__" class="col-form-label">Tax Paid</label>
+                                <input type="number" th:id="taxPaid__${itemStat.index}__" th:field="*{employees[__${itemStat.index}__].taxPaid}" class="form-control" placeholder="taxPaid">
+                                <span th:if="${#fields.hasErrors('*{employees[__${itemStat.index}__].taxPaid}')}" th:errors="*{employees[__${itemStat.index}__].taxPaid}" class="text-danger"></span>
                             </div>
 
                             <span th:text="${status}" class="text-success"></span>

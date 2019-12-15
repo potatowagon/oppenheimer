@@ -5,12 +5,13 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Entity
 public class Employee {
     
     @Id
-    @NotBlank(message = "Id is mandatory")
+    @NotNull(message = "Id is mandatory")
     private long id;
 
     @NotBlank(message = "Name is mandatory")
@@ -19,14 +20,14 @@ public class Employee {
     @NotBlank(message = "Gender is mandatory")
     private String gender;
 
-    @NotBlank(message = "Salary is mandatory")
+    @NotNull(message = "Salary is mandatory")
     private int salary;
 
     @NotBlank(message = "birthday is mandatory")
     private String birthday;
 
-    @NotBlank(message = "tax paid is mandatory")
-    private String taxPaid;
+    @NotNull(message = "tax paid is mandatory")
+    private int taxPaid;
 
     public Employee() {}
 
@@ -75,11 +76,11 @@ public class Employee {
         this.birthday = birthday;
     }
 
-    public String getTaxPaid() {
+    public int getTaxPaid() {
         return taxPaid;
     }
 
-    public void setTaxPaid(String taxPaid) {
+    public void setTaxPaid(int taxPaid) {
         this.taxPaid = taxPaid;
     }
 
