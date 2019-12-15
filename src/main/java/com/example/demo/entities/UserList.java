@@ -1,9 +1,11 @@
 package com.example.demo.entities;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
 public class UserList {
+    @Valid
     private List<User> users;
 
     public UserList() {

@@ -45,14 +45,15 @@ public class UserController {
     }
 
     @PostMapping("/saveusers")
-    public String saveUsers(@ModelAttribute UserList form, BindingResult result, Model model) {
+    public String saveUsers(@ModelAttribute @Valid UserList form, BindingResult result, Model model) {
         if (result.hasErrors()){
             return "add-user";
         }
+        System.out.println("iterating user form next");
         form.getUsers().forEach((user) -> {
 
             saveUser(user, result, model);
-            model.addAttribute("status", "User added");
+            model.addAttribute("status", "User saved");
         });
         model.addAttribute("form" , form);
         return "add-user";
