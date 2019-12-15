@@ -10,19 +10,29 @@ import javax.validation.constraints.NotBlank;
 public class Employee {
     
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @NotBlank(message = "Id is mandatory")
     private long id;
+
     @NotBlank(message = "Name is mandatory")
     private String name;
     
-    @NotBlank(message = "Email is mandatory")
-    private String email;
+    @NotBlank(message = "Gender is mandatory")
+    private String gender;
+
+    @NotBlank(message = "Salary is mandatory")
+    private int salary;
+
+    @NotBlank(message = "birthday is mandatory")
+    private String birthday;
+
+    @NotBlank(message = "tax paid is mandatory")
+    private String taxPaid;
 
     public Employee() {}
 
-    public Employee(String name, String email) {
+    public Employee(String name, String gender) {
         this.name = name;
-        this.email = email;
+        this.gender = gender;
     }
 
     public void setId(long id) {
@@ -37,20 +47,44 @@ public class Employee {
         this.name = name;
     }
     
-    public void setEmail(String email) {
-        this.email = email;
+    public void setGender(String gender) {
+        this.gender = gender;
     }
 
     public String getName() {
         return name;
     }
 
-    public String getEmail() {
-        return email;
+    public String getGender() {
+        return gender;
+    }
+
+    public int getSalary() {
+        return salary;
+    }
+
+    public void setSalary(int salary) {
+        this.salary = salary;
+    }
+
+    public String getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(String birthday) {
+        this.birthday = birthday;
+    }
+
+    public String getTaxPaid() {
+        return taxPaid;
+    }
+
+    public void setTaxPaid(String taxPaid) {
+        this.taxPaid = taxPaid;
     }
 
     @Override
     public String toString() {
-        return "Employee{" + "id=" + id + ", name=" + name + ", email=" + email + '}';
+        return "Employee{" + "id=" + id + ", name=" + name + ", gender=" + gender + '}';
     }
 }
