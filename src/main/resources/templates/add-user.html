@@ -8,29 +8,45 @@
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
         <link rel="stylesheet" href="../css/shards.min.css">
+        <script>
+            function submitForm(action){
+                var main_form = document.getElementById("main-form");
+                main_form.action = action;
+                main_form.submit();
+            }
+        </script>
     </head>
     <body>
         <div class="container my-5">
             <h2 class="mb-5">New User</h2>
             <div class="row">
                 <div class="col-md-6">
-                    <form action="#" th:action="@{/adduser}" th:object="${user}" method="post">
-                        <div class="row">
+                    <form action="#" th:action="@{/saveusers}" th:object="${form}" method="post" id="main-form">
+                        <div class="row" th:each="user, itemStat : *{users}">
+
+
                             <div class="form-group col-md-6">
                                 <label for="name" class="col-form-label">Name</label>
-                                <input type="text" th:field="*{name}" class="form-control" id="name" placeholder="Name">
-                                <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="text-danger"></span>
+                                <input type="text" th:field="*{users[__${itemStat.index}__].name}" class="form-control" placeholder="Name">
+                                <span th:if="${#fields.hasErrors('users[__${itemStat.index}__].name')}" th:errors="*{users[__${itemStat.index}__].name}" class="text-danger"></span>
                             </div>
+
                             <div class="form-group col-md-6">
                                 <label for="email" class="col-form-label">Email</label>
-                                <input type="text" th:field="*{email}" class="form-control" id="email" placeholder="Email">
-                                <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="text-danger"></span>
+                                <input type="text" th:field="*{users[__${itemStat.index}__].email}" class="form-control" placeholder="Email">
+                                <span th:if="${#fields.hasErrors('users[__${itemStat.index}__].name')}" th:errors="*{users[__${itemStat.index}__].name}" class="text-danger"></span>
                             </div>
+
                             <span th:text="${status}" class="text-success"></span>
+
+
                         </div>
                         <div class="row">
                             <div class="col-md-6 mt-5">
-                                <input type="submit" class="btn btn-primary" value="Add User">
+                                <button class="btn btn-primary" onclick="submitForm('/adduser')">Add another user</button>
+                            </div>
+                            <div class="col-md-6 mt-5">
+                                <input type="submit" class="btn btn-primary" value="Submit">
                             </div>
                         </div>    
                     </form>

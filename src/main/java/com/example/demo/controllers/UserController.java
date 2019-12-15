@@ -1,8 +1,10 @@
 package com.example.demo.controllers;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.ConstraintViolationException;
 import javax.validation.Valid;
 
+import com.example.demo.entities.UserList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -19,6 +21,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 @Controller
+@SessionAttributes("form")
 public class UserController {
     
     private final UserRepository userRepository;
@@ -34,18 +37,40 @@ public class UserController {
     }
 
     @GetMapping("/clerk")
-    public String showSignUpForm(User user) {
+    public String showSignUpForm(Model model) {
+        UserList usersForm = new UserList();
+        usersForm.addUser(new User());
+        model.addAttribute("form" , usersForm);
         return "add-user";
     }
-    
-    @PostMapping("/adduser")
-    public String addUser(@Valid User user, BindingResult result, Model model) {
-        if (result.hasErrors()) {
+
+    @PostMapping("/saveusers")
+    public String saveUsers(@ModelAttribute UserList form, BindingResult result, Model model) {
+        if (result.hasErrors()){
             return "add-user";
         }
-        
+        form.getUsers().forEach((user) -> {
+
+            saveUser(user, result, model);
+            model.addAttribute("status", "User added");
+        });
+        model.addAttribute("form" , form);
+        return "add-user";
+    }
+
+    private boolean saveUser(@Valid User user, BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            return false;
+        }
+
         userRepository.save(user);
-        model.addAttribute("status", "User added");
+        return true;
+    }
+
+    @PostMapping("/adduser")
+    public String addUser(@ModelAttribute UserList form, Model model) {
+        form.addUser(new User());
+        model.addAttribute("form" , form);
         return "add-user";
     }
 
