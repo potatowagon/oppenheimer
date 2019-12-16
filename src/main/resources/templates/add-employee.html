@@ -63,7 +63,7 @@
                             </div>
 
                             <div class="form-group col-md">
-                                <button><a th:href="@{/deleteuninserted/{index}(index=__${itemStat.index}__)}"><i class="far fa-window-close icon-4x"></i></a></button>
+                                <button th:onclick="|submitForm('/deleteuninserted/__${itemStat.index}__')|"><i class="far fa-window-close icon-4x"></i></button>
                             </div>
 
                             <span th:text="${status}" class="text-success"></span>

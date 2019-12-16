@@ -90,6 +90,13 @@ public class EmployeeController {
         return "view-all";
     }
 
+    @PostMapping("/deleteuninserted/{index}")
+    public String deleteUninsertedEmployee(@ModelAttribute EmployeeList form, @PathVariable("index") int index, Model model) {
+        form.getEmployees().remove(index);
+        model.addAttribute("form" , form);
+        return "add-employee";
+    }
+
     @GetMapping("/admin")
     public String showCRUD(Model model) {
         model.addAttribute("employees", employeeRepository.findAll());
