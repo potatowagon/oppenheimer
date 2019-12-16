@@ -22,6 +22,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @SessionAttributes("form")
@@ -44,6 +45,8 @@ public class EmployeeController {
         EmployeeList employeesForm = new EmployeeList();
         employeesForm.addEmployee(new Employee());
         model.addAttribute("form" , employeesForm);
+        String maxBirthday = LocalDate.now().toString();
+        model.addAttribute("maxBirthday", maxBirthday);
         return "add-employee";
     }
 
@@ -66,7 +69,10 @@ public class EmployeeController {
         if (result.hasErrors()) {
             return false;
         }
-
+        Optional<Employee> oldEmployee = employeeRepository.findById(employee.getId());
+        if (oldEmployee.isPresent()) {
+            employeeRepository.delete(oldEmployee.get());
+        }
         employeeRepository.save(employee);
         return true;
     }
@@ -75,6 +81,8 @@ public class EmployeeController {
     public String addEmployee(@ModelAttribute EmployeeList form, Model model) {
         form.addEmployee(new Employee());
         model.addAttribute("form" , form);
+        String maxBirthday = LocalDate.now().toString();
+        model.addAttribute("maxBirthday", maxBirthday);
         return "add-employee";
     }
 
@@ -94,6 +102,8 @@ public class EmployeeController {
     public String deleteUninsertedEmployee(@ModelAttribute EmployeeList form, @PathVariable("index") int index, Model model) {
         form.getEmployees().remove(index);
         model.addAttribute("form" , form);
+        String maxBirthday = LocalDate.now().toString();
+        model.addAttribute("maxBirthday", maxBirthday);
         return "add-employee";
     }
 
