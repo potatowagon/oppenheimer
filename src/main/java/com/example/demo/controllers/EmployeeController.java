@@ -2,6 +2,7 @@ package com.example.demo.controllers;
 
 import javax.validation.Valid;
 
+import com.example.demo.entities.BookkeeperEmployeeView;
 import com.example.demo.entities.EmployeeList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,6 +16,12 @@ import com.example.demo.repositories.EmployeeRepository;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 @Controller
 @SessionAttributes("form")
@@ -73,7 +80,13 @@ public class EmployeeController {
 
     @GetMapping("/bookkeeper")
     public String showEmployees(Model model) {
-        model.addAttribute("employees", employeeRepository.findAll());
+        List<Employee> employees = (List<Employee>) employeeRepository.findAll();
+        List<BookkeeperEmployeeView> bookkeeperEmployeeViews = new ArrayList<>();
+        for(Employee employee : employees){
+            bookkeeperEmployeeViews.add(new BookkeeperEmployeeView(employee));
+        }
+
+        model.addAttribute("employees", bookkeeperEmployeeViews);
         return "view-all";
     }
 
