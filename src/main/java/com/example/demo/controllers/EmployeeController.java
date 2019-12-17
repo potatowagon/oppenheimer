@@ -61,8 +61,8 @@ public class EmployeeController {
             saveEmployee(employee, result, model);
             model.addAttribute("status", "Employee saved");
         });
-        model.addAttribute("form" , form);
-        return "add-employee";
+        model.addAttribute("employees" , form.getEmployees());
+        return "insert-employee-success";
     }
 
     private boolean saveEmployee(@Valid Employee employee, BindingResult result, Model model) {
