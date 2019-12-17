@@ -54,6 +54,8 @@ public class EmployeeController {
     public String saveEmployees(@ModelAttribute @Valid EmployeeList form, BindingResult result, Model model) {
         if (result.hasErrors()){
             model.addAttribute("status", "One or more fields invalid.");
+            String maxBirthday = LocalDate.now().toString();
+            model.addAttribute("maxBirthday", maxBirthday);
             return "add-employee";
         }
         System.out.println("iterating employee form next");
