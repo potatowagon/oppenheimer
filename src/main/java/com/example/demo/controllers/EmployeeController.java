@@ -53,13 +53,13 @@ public class EmployeeController {
     @PostMapping("/saveemployees")
     public String saveEmployees(@ModelAttribute @Valid EmployeeList form, BindingResult result, Model model) {
         if (result.hasErrors()){
+            model.addAttribute("status", "One or more fields invalid.");
             return "add-employee";
         }
         System.out.println("iterating employee form next");
         form.getEmployees().forEach((employee) -> {
 
             saveEmployee(employee, result, model);
-            model.addAttribute("status", "Employee saved");
         });
         model.addAttribute("employees" , form.getEmployees());
         return "insert-employee-success";
