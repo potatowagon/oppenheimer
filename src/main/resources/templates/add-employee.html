@@ -22,6 +22,7 @@
             <div class="row">
                 <div class="col-md">
                     <form action="#" th:action="@{/saveemployees}" th:object="${form}" method="post" id="main-form">
+                        <span th:text="${status}" class="text-danger"></span>
                         <div class="row" th:each="employee, itemStat : *{employees}">
                             <div class="form-group col-md">
                                 <label th:for="id__${itemStat.index}__" class="col-form-label">National Id</label>
@@ -65,10 +66,6 @@
                             <div class="form-group col-md">
                                 <button th:onclick="|submitForm('/deleteuninserted/__${itemStat.index}__')|"><i class="far fa-window-close icon-4x"></i></button>
                             </div>
-
-                            <span th:text="${status}" class="text-success"></span>
-
-
                         </div>
                         <div class="row">
                             <div class="col-md-6 mt-5">

@@ -53,16 +53,18 @@ public class EmployeeController {
     @PostMapping("/saveemployees")
     public String saveEmployees(@ModelAttribute @Valid EmployeeList form, BindingResult result, Model model) {
         if (result.hasErrors()){
+            model.addAttribute("status", "One or more fields invalid.");
+            String maxBirthday = LocalDate.now().toString();
+            model.addAttribute("maxBirthday", maxBirthday);
             return "add-employee";
         }
         System.out.println("iterating employee form next");
         form.getEmployees().forEach((employee) -> {
 
             saveEmployee(employee, result, model);
-            model.addAttribute("status", "Employee saved");
         });
-        model.addAttribute("form" , form);
-        return "add-employee";
+        model.addAttribute("employees" , form.getEmployees());
+        return "insert-employee-success";
     }
 
     private boolean saveEmployee(@Valid Employee employee, BindingResult result, Model model) {
