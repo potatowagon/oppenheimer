@@ -37,6 +37,12 @@ public class EmployeeController {
         this.employeeRepository = employeeRepository;
     }
 
+    private String showInvalidEmployeeInsertion(Model model, String msg){
+        model.addAttribute("status", msg);
+        String maxBirthday = LocalDate.now().toString();
+        model.addAttribute("maxBirthday", maxBirthday);
+        return "add-employee";
+    }
     @GetMapping("/")
     public String showIndex() {
         return "index";
@@ -55,10 +61,7 @@ public class EmployeeController {
     @PostMapping("/saveemployees")
     public String saveEmployees(@ModelAttribute @Valid EmployeeList form, BindingResult result, Model model) {
         if (result.hasErrors()){
-            model.addAttribute("status", "One or more fields invalid.");
-            String maxBirthday = LocalDate.now().toString();
-            model.addAttribute("maxBirthday", maxBirthday);
-            return "add-employee";
+            showInvalidEmployeeInsertion(model, "One or more fields invalid.");
         }
         System.out.println("iterating employee form next");
         form.getEmployees().forEach((employee) -> {
@@ -71,6 +74,7 @@ public class EmployeeController {
 
     private boolean saveEmployee(@Valid Employee employee, BindingResult result, Model model) {
         if (result.hasErrors()) {
+            System.out.println("employee invalid");
             return false;
         }
         Optional<Employee> oldEmployee = employeeRepository.findById(employee.getId());
@@ -78,6 +82,7 @@ public class EmployeeController {
             employeeRepository.delete(oldEmployee.get());
         }
         employeeRepository.save(employee);
+        System.out.println("employee saved");
         return true;
     }
 
@@ -146,7 +151,10 @@ public class EmployeeController {
 
     @PostMapping("/uploadFile")
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public String handleFileUpload(@RequestParam("file") MultipartFile file, Model model) throws Exception {
+    public String handleFileUpload(@RequestParam("file") MultipartFile file, Model model, @Valid Employee modelEmployee, BindingResult result) throws Exception {
+        if (result.hasErrors()) {
+            showInvalidEmployeeInsertion(model, "One or more fields invalid.");
+        }
         //read file
         Reader targetReader = new StringReader(new String(file.getBytes()));
         //output  file to stdout
@@ -168,12 +176,17 @@ public class EmployeeController {
                 employeeList.addEmployee(employee);
             } catch (java.lang.IllegalArgumentException e){
                 System.out.println(e);
-                model.addAttribute("status", "One or more fields invalid.");
-                String maxBirthday = LocalDate.now().toString();
-                model.addAttribute("maxBirthday", maxBirthday);
-                return "add-employee";
+                showInvalidEmployeeInsertion(model, "Invalid CSV");
             }
         }
+        employeeList.getEmployees().forEach((employee) -> {
+            boolean success = saveEmployee(employee, result, model);
+            System.out.println(employee.toString());
+            System.out.println(success);
+            if (!success){
+                return showInvalidEmployeeInsertion(model, "One or more fields invalid.");
+            }
+        });
         model.addAttribute("employees" , employeeList.getEmployees());
         return "insert-employee-success";
     }
