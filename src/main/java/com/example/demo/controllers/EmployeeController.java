@@ -111,39 +111,6 @@ public class EmployeeController {
         return "add-employee";
     }
 
-    @GetMapping("/admin")
-    public String showCRUD(Model model) {
-        model.addAttribute("employees", employeeRepository.findAll());
-        return "crud";
-    }
-
-    @GetMapping("/edit/{id}")
-    public String showUpdateForm(@PathVariable("id") long id, Model model) {
-        Employee employee = employeeRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid employee Id:" + id));
-        model.addAttribute("employee", employee);
-        return "update-employee";
-    }
-    
-    @PostMapping("/update/{id}")
-    public String updateEmployee(@PathVariable("id") long id, @Valid Employee employee, BindingResult result, Model model) {
-        if (result.hasErrors()) {
-            employee.setId(id);
-            return "update-user";
-        }
-        
-        employeeRepository.save(employee);
-        model.addAttribute("employees", employeeRepository.findAll());
-        return "crud";
-    }
-    
-    @GetMapping("/delete/{id}")
-    public String deleteEmployee(@PathVariable("id") long id, Model model) {
-        Employee employee = employeeRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid employee Id:" + id));
-        employeeRepository.delete(employee);
-        model.addAttribute("employees", employeeRepository.findAll());
-        return "crud";
-    }
-
     @PostMapping("/uploadFile")
     @ResponseStatus(HttpStatus.ACCEPTED)
     public String handleFileUpload(@RequestParam("file") MultipartFile file, Model model, @Valid Employee modelEmployee, BindingResult result) throws IOException {
