@@ -177,4 +177,14 @@ public class EmployeeController {
         model.addAttribute("form", employeeList);
         return "forward:/saveemployees";
     }
+
+    @GetMapping("/gov")
+    public String showDispenseCash() {
+        return "dispense-cash";
+    }
+
+    @GetMapping("/dispensecash")
+    public String showDispenseCashSuccess() {
+        return "dispense-cash-success";
+    }
 }
