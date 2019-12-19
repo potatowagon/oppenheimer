@@ -21,7 +21,7 @@ spring.datasource.url=<database url>
 spring.datasource.username=<database username>
 spring.datasource.password=<database password>
 ```
-Remember to replace the content in <>
+Remember to replace the content in <>. Dont commit this file to git as it contains sensitive information.
 
 2. In a terminal, run
 ```
