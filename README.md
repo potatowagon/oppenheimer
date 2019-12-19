@@ -20,6 +20,7 @@ spring.jpa.hibernate.ddl-auto=update
 spring.datasource.url=<database url>
 spring.datasource.username=<database username>
 spring.datasource.password=<database password>
+server.port=5000
 ```
 Remember to replace the content in <>. Dont commit `application.properties` to git as it contains sensitive information.
 
@@ -31,6 +32,14 @@ This uses the mvnw script to build and run the jar.
 
 1. Open [localhost:8080](http://localhost:8080/) in a browser. The webapp's homepage should appear.
 ![alt text](/doc_img/homescreen.PNG)
+
+## Deploying to cloud
+1. Build the Jar
+```
+./mvnw clean package
+```
+
+2. Upload the Jar to cloud
 
 ## Development
 
