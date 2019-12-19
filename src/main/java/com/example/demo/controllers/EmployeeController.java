@@ -53,7 +53,7 @@ public class EmployeeController {
     }
 
     @PostMapping("/saveemployees")
-    public String saveEmployees(@ModelAttribute @Valid EmployeeList form, BindingResult result, Model model) {
+    public String saveEmployees(@ModelAttribute("form") @Valid EmployeeList form, BindingResult result, Model model) {
         if (result.hasErrors()){
             model.addAttribute("status", "One or more fields invalid.");
             String maxBirthday = LocalDate.now().toString();
@@ -62,15 +62,15 @@ public class EmployeeController {
         }
         System.out.println("iterating employee form next");
         form.getEmployees().forEach((employee) -> {
-
-            saveEmployee(employee, result, model);
+            saveEmployee(employee, result);
         });
         model.addAttribute("employees" , form.getEmployees());
         return "insert-employee-success";
     }
 
-    private boolean saveEmployee(@Valid Employee employee, BindingResult result, Model model) {
+    private boolean saveEmployee(@Valid Employee employee, BindingResult result) {
         if (result.hasErrors()) {
+            System.out.println("Invalid employee");
             return false;
         }
         Optional<Employee> oldEmployee = employeeRepository.findById(employee.getId());
@@ -146,14 +146,13 @@ public class EmployeeController {
 
     @PostMapping("/uploadFile")
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public String handleFileUpload(@RequestParam("file") MultipartFile file, Model model) throws Exception {
+    public String handleFileUpload(@RequestParam("file") MultipartFile file, Model model, @Valid Employee modelEmployee, BindingResult result) throws IOException {
         //read file
         Reader targetReader = new StringReader(new String(file.getBytes()));
         //output  file to stdout
         System.out.println(new String(file.getBytes()));
 
         EmployeeList employeeList = new EmployeeList();
-        //Iterable<CSVRecord> records = CSVFormat.DEFAULT.withFirstRecordAsHeader().parse(targetReader);
         CSVFormat csvFormat = CSVFormat.newFormat(',');
         Iterable<CSVRecord> records = csvFormat.withFirstRecordAsHeader().parse(targetReader);
         for (CSVRecord record : records) {
@@ -168,13 +167,14 @@ public class EmployeeController {
                 employeeList.addEmployee(employee);
             } catch (java.lang.IllegalArgumentException e){
                 System.out.println(e);
-                model.addAttribute("status", "One or more fields invalid.");
+                model.addAttribute("status", "CSV invalid");
                 String maxBirthday = LocalDate.now().toString();
                 model.addAttribute("maxBirthday", maxBirthday);
                 return "add-employee";
             }
         }
-        model.addAttribute("employees" , employeeList.getEmployees());
-        return "insert-employee-success";
+
+        model.addAttribute("form", employeeList);
+        return "forward:/saveemployees";
     }
 }
