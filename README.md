@@ -6,6 +6,11 @@ Java webapp developed with
 - mysql (database)
 - maven (buildtool)
 
+- [Oppenheimer](#oppenheimer)
+  - [Running locally](#running-locally)
+  - [Development](#development)
+    - [Test](#test)
+
 ## Running locally
 
 1. Create an `application.properties` file at `src\main\resources\application.properties` with the following content
@@ -31,7 +36,7 @@ This uses the mvnw script to build and run the jar.
 
 Source code is in `src\main`
 
-## Test
+### Test
 Unit test will come soon!
 
 Sample CSV to test inserting employees from CSV in `src\test\java\com\example\demo\test_data`. Note: CSVs have to be saved as CSV(Comma delimited), else it wont work!
