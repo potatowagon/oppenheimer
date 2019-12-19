@@ -31,7 +31,7 @@ Remember to replace the content in <>. Dont commit `application.properties` to g
 ```
 This uses the mvnw script to build and run the jar.
 
-1. Open [localhost:5000](http://localhost:5000/) in a browser. The webapp's homepage should appear.
+3. Open [localhost:5000](http://localhost:5000/) in a browser. The webapp's homepage should appear.
 ![alt text](/doc_img/homescreen.PNG)
 
 ## Deploying to cloud
