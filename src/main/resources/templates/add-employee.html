@@ -26,7 +26,7 @@
                         <div class="row" th:each="employee, itemStat : *{employees}">
                             <div class="form-group col-md">
                                 <label th:for="id__${itemStat.index}__" class="col-form-label">National Id</label>
-                                <input min="1" type="number" th:id="id__${itemStat.index}__" th:field="*{employees[__${itemStat.index}__].id}" class="form-control" placeholder="natid">
+                                <input min="1" max="4294967295" type="number" th:id="id__${itemStat.index}__" th:field="*{employees[__${itemStat.index}__].id}" class="form-control" placeholder="natid">
                                 <span th:if="${#fields.hasErrors('employees[__${itemStat.index}__].id')}" th:errors="*{employees[__${itemStat.index}__].id}" class="text-danger"></span>
                             </div>
 
@@ -53,23 +53,23 @@
 
                             <div class="form-group col-md">
                                 <label th:for="salary__${itemStat.index}__" class="col-form-label">Salary</label>
-                                <input min="0" type="number" th:id="salary__${itemStat.index}__" th:field="*{employees[__${itemStat.index}__].salary}" class="form-control" placeholder="salary">
+                                <input min="0" max="2147483647" type="number" th:id="salary__${itemStat.index}__" th:field="*{employees[__${itemStat.index}__].salary}" class="form-control" placeholder="salary">
                                 <span th:if="${#fields.hasErrors('*{employees[__${itemStat.index}__].salary}')}" th:errors="*{employees[__${itemStat.index}__].salary}" class="text-danger"></span>
                             </div>
 
                             <div class="form-group col-md">
                                 <label th:for="taxPaid__${itemStat.index}__" class="col-form-label">Tax Paid</label>
-                                <input min="0" type="number" th:id="taxPaid__${itemStat.index}__" th:field="*{employees[__${itemStat.index}__].taxPaid}" class="form-control" placeholder="taxPaid">
+                                <input min="0" max="2147483647" type="number" th:id="taxPaid__${itemStat.index}__" th:field="*{employees[__${itemStat.index}__].taxPaid}" class="form-control" placeholder="taxPaid">
                                 <span th:if="${#fields.hasErrors('*{employees[__${itemStat.index}__].taxPaid}')}" th:errors="*{employees[__${itemStat.index}__].taxPaid}" class="text-danger"></span>
                             </div>
 
                             <div class="form-group col-md">
-                                <button th:onclick="|submitForm('/deleteuninserted/__${itemStat.index}__')|"><i class="far fa-window-close icon-4x"></i></button>
+                                <button type="button" th:onclick="|submitForm('/deleteuninserted/__${itemStat.index}__')|"><i class="far fa-window-close icon-4x"></i></button>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-6 mt-5">
-                                <button class="btn btn-primary" onclick="submitForm('/addemployee')">Add another employee</button>
+                                <button type="button" class="btn btn-primary" onclick="submitForm('/addemployee')">Add another employee</button>
                             </div>
                             <div class="col-md-6 mt-5">
                                 <input type="submit" class="btn btn-primary" value="Submit">
