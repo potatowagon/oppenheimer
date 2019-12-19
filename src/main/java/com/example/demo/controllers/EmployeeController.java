@@ -1,5 +1,7 @@
 package com.example.demo.controllers;
 
+import javax.servlet.RequestDispatcher;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import com.example.demo.entities.BookkeeperEmployeeView;
@@ -153,5 +155,10 @@ public class EmployeeController {
     @GetMapping("/dispensecash")
     public String showDispenseCashSuccess() {
         return "dispense-cash-success";
+    }
+
+    @GetMapping("/error")
+    public String showErrorPage(HttpServletRequest request, Model model) {
+        return "error";
     }
 }
