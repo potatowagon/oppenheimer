@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.*;
 import com.example.demo.entities.Employee;
 import com.example.demo.repositories.EmployeeRepository;
 import org.springframework.web.multipart.MultipartFile;
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVRecord;
 
 import java.io.*;
 import java.time.LocalDate;
@@ -51,7 +53,7 @@ public class EmployeeController {
     }
 
     @PostMapping("/saveemployees")
-    public String saveEmployees(@ModelAttribute @Valid EmployeeList form, BindingResult result, Model model) {
+    public String saveEmployees(@ModelAttribute("form") @Valid EmployeeList form, BindingResult result, Model model) {
         if (result.hasErrors()){
             model.addAttribute("status", "One or more fields invalid.");
             String maxBirthday = LocalDate.now().toString();
@@ -60,15 +62,15 @@ public class EmployeeController {
         }
         System.out.println("iterating employee form next");
         form.getEmployees().forEach((employee) -> {
-
-            saveEmployee(employee, result, model);
+            saveEmployee(employee, result);
         });
         model.addAttribute("employees" , form.getEmployees());
         return "insert-employee-success";
     }
 
-    private boolean saveEmployee(@Valid Employee employee, BindingResult result, Model model) {
+    private boolean saveEmployee(@Valid Employee employee, BindingResult result) {
         if (result.hasErrors()) {
+            System.out.println("Invalid employee");
             return false;
         }
         Optional<Employee> oldEmployee = employeeRepository.findById(employee.getId());
@@ -144,16 +146,35 @@ public class EmployeeController {
 
     @PostMapping("/uploadFile")
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public void handleFileUpload(@RequestParam("file") MultipartFile file) throws Exception {
-        File convFile = new File( file.getOriginalFilename() );
-        FileOutputStream fos = new FileOutputStream( convFile );
-        fos.write( file.getBytes() );
-        fos.close();
-        FileReader fr = new FileReader(convFile);
-        BufferedReader br=new BufferedReader(fr);
-        String line;
-        while((line=br.readLine())!=null) {
-            System.out.println(br.readLine());
+    public String handleFileUpload(@RequestParam("file") MultipartFile file, Model model, @Valid Employee modelEmployee, BindingResult result) throws IOException {
+        //read file
+        Reader targetReader = new StringReader(new String(file.getBytes()));
+        //output  file to stdout
+        System.out.println(new String(file.getBytes()));
+
+        EmployeeList employeeList = new EmployeeList();
+        CSVFormat csvFormat = CSVFormat.newFormat(',');
+        Iterable<CSVRecord> records = csvFormat.withFirstRecordAsHeader().parse(targetReader);
+        for (CSVRecord record : records) {
+            Employee employee = new Employee();
+            try {
+                employee.setId(Long.parseLong(record.get("id")));
+                employee.setName(record.get("name"));
+                employee.setBirthday(record.get("birthday"));
+                employee.setGender(record.get("gender"));
+                employee.setSalary(Integer.parseInt(record.get("salary")));
+                employee.setTaxPaid(Integer.parseInt(record.get("taxPaid")));
+                employeeList.addEmployee(employee);
+            } catch (java.lang.IllegalArgumentException e){
+                System.out.println(e);
+                model.addAttribute("status", "CSV invalid");
+                String maxBirthday = LocalDate.now().toString();
+                model.addAttribute("maxBirthday", maxBirthday);
+                return "add-employee";
+            }
         }
+
+        model.addAttribute("form", employeeList);
+        return "forward:/saveemployees";
     }
 }
