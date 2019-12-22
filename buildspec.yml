@@ -6,6 +6,7 @@ phases:
       java: corretto8
   build:
     commands:
+      - chmod +x mvnw
       - ./mvnw clean package
 artifacts:
   files:
