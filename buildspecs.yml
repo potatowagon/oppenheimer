@@ -1,0 +1,9 @@
+version: 0.1
+
+phases:
+  build:
+    commands:
+      - ./mvnw clean package
+artifacts:
+  files:
+    - 'target/demo-0.0.1-SNAPSHOT.jar'
