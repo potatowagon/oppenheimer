@@ -6,6 +6,7 @@ phases:
       java: corretto8
   build:
     commands:
+      - curl https://$GITHUB_TOKEN@raw.githubusercontent.com/potatowagon/spring-application-properties/master/oppenheimer/application.properties -o ./src/main/resources/application.properties
       - mvn clean
       - mvn install
 artifacts:
