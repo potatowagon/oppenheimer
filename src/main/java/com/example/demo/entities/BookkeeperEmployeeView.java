@@ -78,10 +78,10 @@ public class BookkeeperEmployeeView {
         }
 
         int genderBonus = 0;
-        if (gender == "Male"){
+        if (gender.equals("Male")){
             genderBonus = 0;
         }
-        else if (gender == "Female"){
+        else if (gender.equals("Female")){
             genderBonus = 500;
         }
 
