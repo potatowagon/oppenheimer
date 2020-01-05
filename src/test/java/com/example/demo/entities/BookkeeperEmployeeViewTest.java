@@ -21,14 +21,25 @@ public class BookkeeperEmployeeViewTest {
         assertThat(new BookkeeperEmployeeView(id, "mock", 0).getMaskedId()).isEqualTo(expectedMaskedId);
     }
 
-        Employee employee = new Employee();
-        employee.setId(id);
-        employee.setName("mock");
-        employee.setBirthday("2020-01-02");
-        employee.setSalary(0);
-        employee.setTaxPaid(0);
-        employee.setGender("");
-        assertThat(new BookkeeperEmployeeView(employee).getMaskedId()).isEqualTo(expectedMaskedId);
+    @Test
+    @junitparams.Parameters({
+            "1000, 10, 17, Male, 990",
+            "1000, 20, 18, Male, 980",
+            "1000, 10, 20, Male, 792",
+            "1000, 10, 18, Female, 1490",
+            "1000, 10, 76, Male, 50",
+            "1000, 10, 75, Male, 363",
+            "10, 10, 75, Male, 0",
+            "10, 9, 18, Male, 50",
+            "10, 9, 18, Female, 501",
+            "10, 9, 50, Male, 50",
+            "10, 9, 50, Female, 501",
+            "10, 9, 75, Male, 0",
+            "10, 9, 75, Female, 500"
+    })
+    public void calcTaxRelief(Integer salary, Integer taxPaid, Integer age, String gender, Integer expectedTaxRelief) {
+        BookkeeperEmployeeView bev = new BookkeeperEmployeeView();
+        assertThat(bev.calcTaxRelief(salary, taxPaid, age, gender)).isEqualTo(expectedTaxRelief);
     }
 
     @Test
