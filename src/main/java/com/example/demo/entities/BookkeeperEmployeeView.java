@@ -11,6 +11,8 @@ public class BookkeeperEmployeeView {
     private String name;
     private int taxRelief;
 
+    public BookkeeperEmployeeView() {}
+
     public BookkeeperEmployeeView(long id, String name, int taxRelief) {
         this.maskedId = maskId(id);
         this.name = name;
@@ -57,7 +59,7 @@ public class BookkeeperEmployeeView {
         return new String(arr);
     }
 
-    private int calcTaxRelief(int salary, int taxPaid, int age, String gender){
+    public int calcTaxRelief(int salary, int taxPaid, int age, String gender){
         double var = 0;
         if (age <= 18){
             var = 1;
@@ -87,10 +89,14 @@ public class BookkeeperEmployeeView {
         DecimalFormat df = new DecimalFormat("#.##");
         df.setRoundingMode(RoundingMode.DOWN);
         double taxRelief2dp = Double.valueOf(df.format(taxRelief));
-        return (int) Math.round(taxRelief2dp);
+        int taxReliefRounded = (int) Math.round(taxRelief2dp);
+        if (taxReliefRounded > 0 && taxReliefRounded < 50){
+            return 50;
+        }
+        return taxReliefRounded;
     }
 
-    private int ageFromBirthday(String birthday){
+    public int ageFromBirthday(String birthday){
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDate localDateBirthday = LocalDate.parse(birthday, formatter);
         LocalDate currentDate = LocalDate.now();
