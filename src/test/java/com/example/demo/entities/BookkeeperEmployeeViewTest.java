@@ -22,6 +22,18 @@ public class BookkeeperEmployeeViewTest {
     }
 
     @Test
+    public void getTaxRelief() {
+        Employee employee = new Employee();
+        employee.setName("mock");
+        employee.setGender("Female");
+        employee.setTaxPaid(10);
+        employee.setSalary(1000);
+        employee.setBirthday("2002-01-01");
+        BookkeeperEmployeeView bev = new BookkeeperEmployeeView(employee);
+        assertThat(bev.getTaxRelief()).isEqualTo(1490);
+    }
+
+    @Test
     @junitparams.Parameters({
             "1000, 10, 17, Male, 990",
             "1000, 20, 18, Male, 980",
