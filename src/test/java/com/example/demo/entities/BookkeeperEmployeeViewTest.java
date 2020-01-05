@@ -18,6 +18,9 @@ public class BookkeeperEmployeeViewTest {
             "123456789, 1234$$$$$"
     })
     public void getMaskedId(Long id, String expectedMaskedId) {
+        assertThat(new BookkeeperEmployeeView(id, "mock", 0).getMaskedId()).isEqualTo(expectedMaskedId);
+    }
+
         Employee employee = new Employee();
         employee.setId(id);
         employee.setName("mock");
