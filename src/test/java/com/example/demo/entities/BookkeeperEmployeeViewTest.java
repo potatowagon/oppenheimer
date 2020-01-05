@@ -32,6 +32,14 @@ public class BookkeeperEmployeeViewTest {
     }
 
     @Test
-    public void getTaxRelief() {
+    @junitparams.Parameters({
+            "1994-01-01, 26",
+            "2002-01-01, 18",
+            "2000-01-01, 20",
+            "1985-01-01, 35"
+    })
+    public void ageFromBirthday(String birthday, Integer expectedAge) {
+        BookkeeperEmployeeView bev = new BookkeeperEmployeeView();
+        assertThat(bev.ageFromBirthday(birthday)).isEqualTo(expectedAge);
     }
 }
